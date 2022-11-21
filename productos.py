@@ -9,14 +9,15 @@ class Aplicacion(Frame):
         self.marco=marco
         self.pack()
         self.crear_componentes()
-        self.obtener_productos("basededatosdesupermercado.db")
+        self.obtener_productos()
         self.agregar_productos()
+        self.editar_productos()
 
   
 
 
-    def obtener_productos(self,ruta):
-        conexion=sqlite3.connect(ruta)
+    def obtener_productos(self):
+        conexion=sqlite3.connect("basededatosdesupermercado.db")
         cursor=conexion.cursor()
         obtener=cursor.execute("SELECT * FROM Producto")
         # ob=cursor.fetchall()
@@ -45,17 +46,41 @@ class Aplicacion(Frame):
         cursor.executemany("INSERT INTO Producto VALUES(?,?,?)",lista)
         conexion.commit()
         conexion.close()
-    
-    
-    
+        self.obtener_productos()
 
-        
+    
+    
     
     def eliminar_productos(self):
-        pass
+        d=self.tabla.item(self.tabla.selection())['text']
+        
+        conexion = sqlite3.connect("basededatosdesupermercado.db")
+        cursor = conexion.cursor()
+        cursor.execute(f"DELETE FROM Producto WHERE  nombre='{d}'")
+        conexion.commit()
+        conexion.close()
+        self.obtener_productos()
+
 
     def editar_productos(self):
-        pass
+        
+
+        conexion = sqlite3.connect("basededatosdesupermercado.db")
+        cursor=conexion.cursor()
+
+        n=self.tabla.item(self.tabla.selection())["text"]
+        # p=self.tabla.item(self.tabla.selection())['values'][0]
+        # print(p)
+        nom=self.n_nombre.get()
+        pre=self.n_precio.get()
+        print(pre)
+
+        cursor.execute(f'UPDATE Producto SET nombre="{nom}",precio="{pre}" WHERE nombre="{n}"')
+        conexion.commit()
+        conexion.close()
+        self.obtener_productos()
+
+        
         
 
     
@@ -102,15 +127,15 @@ class Aplicacion(Frame):
         self.precio["text"] = "precio"
         self.precio.place(x=230,y=160,width=201,height=30)
 
-        GButton_47=tk.Button()
-        GButton_47["bg"] = "#90ee90"
+        agregar_producto=tk.Button()
+        agregar_producto["bg"] = "#90ee90"
         ft = tkFont.Font(family='Times',size=10)
-        GButton_47["font"] = ft
-        GButton_47["fg"] = "#000000"
-        GButton_47["justify"] = "center"
-        GButton_47["text"] = "Agregar Producto"
-        GButton_47.place(x=210,y=220,width=191,height=30)
-        GButton_47["command"] = self.agregar_productos
+        agregar_producto["font"] = ft
+        agregar_producto["fg"] = "#000000"
+        agregar_producto["justify"] = "center"
+        agregar_producto["text"] = "Agregar Producto"
+        agregar_producto.place(x=210,y=220,width=191,height=30)
+        agregar_producto["command"] = self.agregar_productos
 
         GLabel_464=tk.Label()
         GLabel_464["bg"] = "#90ee90"
@@ -149,14 +174,28 @@ class Aplicacion(Frame):
         GButton_55["font"] = ft
         GButton_55["fg"] = "#fffefe"
         GButton_55["justify"] = "center"
-        GButton_55["text"] = "Editar"
-        GButton_55.place(x=320,y=270,width=220,height=30)
+        GButton_55["text"] = "Actulizar"
+        GButton_55.place(relx=0.65,rely=0.30,width=220,height=30)
         GButton_55["command"] = self.editar_productos
+
+        t_nombre=tk.Label()
+        t_nombre['text']="ingrese un nuevo nombre"
+        t_nombre.place(relx=0.67,rely=0.12)
+
+        self.n_nombre=tk.Entry()
+        self.n_nombre.place(relx=0.67,rely=0.15, width=180,height=20)
+
+        t_precio=tk.Label()
+        t_precio["text"]="Ingrese un nuevo precio"
+        t_precio.place(relx=0.67,rely=0.20)
+
+        self.n_precio=tk.Entry()
+        self.n_precio.place(relx=0.67, rely=0.23,width=180,height=20)
 
     
 
 
-    # def GButton_47_command(self):
+    # def agregar_producto_command(self):
     #     nombre=self.txtNombre.get()
     #     precio=self.precio.get()
     #     self.txtNombre.delete(0,"end")
