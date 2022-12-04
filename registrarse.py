@@ -1,5 +1,6 @@
 import tkinter as tk
 import tkinter.font as tkFont
+import sqlite3
 
 class App:
     def __init__(self, root):
@@ -13,6 +14,7 @@ class App:
         alignstr = '%dx%d+%d+%d' % (width, height, (screenwidth - width) / 2, (screenheight - height) / 2)
         root.geometry(alignstr)
         root.resizable(width=False, height=False)
+        self.tabla_registro()
 
         GLabel_485=tk.Label(root)
         GLabel_485["activebackground"] = "#1e90ff"
@@ -40,15 +42,15 @@ class App:
         GLabel_817["text"] = "Nombre"
         GLabel_817.place(x=120,y=160,width=70,height=25)
 
-        ingresar_apellido=tk.Entry(root)
-        ingresar_apellido.focus()
-        ingresar_apellido["borderwidth"] = "1px"
+        self.ingresar_apellido=tk.Entry(root)
+        self.ingresar_apellido.focus()
+        self.ingresar_apellido["borderwidth"] = "1px"
         ft = tkFont.Font(family='Times',size=12)
-        ingresar_apellido["font"] = ft
-        ingresar_apellido["fg"] = "#333333"
-        ingresar_apellido["justify"] = "left"
-        ingresar_apellido["text"] = "Ingresa tu apellido"
-        ingresar_apellido.place(x=210,y=110,width=170,height=39)
+        self.ingresar_apellido["font"] = ft
+        self.ingresar_apellido["fg"] = "#333333"
+        self.ingresar_apellido["justify"] = "left"
+        self.ingresar_apellido["text"] = "Ingresa tu apellido"
+        self.ingresar_apellido.place(x=210,y=110,width=170,height=39)
 
         ingresar_nombre=tk.Entry(root)
         ingresar_nombre["borderwidth"] = "1px"
@@ -110,13 +112,13 @@ class App:
         ingresar_constrasenia["text"] = "contraseña"
         ingresar_constrasenia.place(x=210,y=310,width=164,height=37)
 
-        GLabel_834=tk.Label(root)
+        email_label=tk.Label(root)
         ft = tkFont.Font(family='Times',size=13)
-        GLabel_834["font"] = ft
-        GLabel_834["fg"] = "#333333"
-        GLabel_834["justify"] = "right"
-        GLabel_834["text"] = "E-mail"
-        GLabel_834.place(x=110,y=370,width=70,height=25)
+        email_label["font"] = ft
+        email_label["fg"] = "#333333"
+        email_label["justify"] = "right"
+        email_label["text"] = "E-mail"
+        email_label.place(x=110,y=370,width=70,height=25)
 
         ingresar_email=tk.Entry(root)
         ingresar_email["borderwidth"] = "1px"
@@ -209,8 +211,15 @@ class App:
         ingresar_de_nuevo_tu_correo["text"] = "repite tu correo"
         ingresar_de_nuevo_tu_correo.place(x=210,y=410,width=161,height=36)
 
+    def tabla_registro(self):
+        conexion=sqlite3.connect("supermercado.db")
+        conexion.close()
+
     def boton_confirmar_command(self):
-        print("command")
+        a=self.ingresar_apellido.get()
+        print(a)
+
+        
 
 
     def boton_limpiar_command(self):

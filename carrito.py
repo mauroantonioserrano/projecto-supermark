@@ -1,11 +1,14 @@
 import tkinter as tk
 import tkinter.font as tkFont
 from tkinter import ttk
+import sqlite3
+from tkinter import messagebox
+
 
 class App:
     def __init__(self, root):
         #setting title
-        root.title("undefined")
+        root.title("Tienda")
         #setting window size
         width=1000
         height=600
@@ -14,38 +17,154 @@ class App:
         alignstr = '%dx%d+%d+%d' % (width, height, (screenwidth - width) / 2, (screenheight - height) / 2)
         root.geometry(alignstr)
         root.resizable(width=False, height=False)
+        self.componentes()
+        self.contador=0
+        
+    
 
-        GButton_850=tk.Button(root)
-        GButton_850["bg"] = "#43bb43"
+        
+    
+
+    def boton_buscar_command(self):
+        conexion=sqlite3.connect("supermercado.db")
+        cursor=conexion.cursor()
+        buscar=self.buscar_producto_entry.get()
+        consulta=cursor.execute(f"SELECT * FROM tienda WHERE  nombre LIKE  '{buscar}%' or marca LIKE '{buscar}%'")
+        # s=cursor.fetchall()
+        # for i in s:
+        #     print(i)
+        hijos=self.tabla.get_children()
+        for h in hijos:
+            self.tabla.delete(h)
+
+        for i in consulta:
+            self.tabla.insert("",0,text=i[1] ,values=(i[2],i[3],i[4],i[5]))
+
+        conexion.commit()
+        conexion.close()
+
+    def incrementar_cantidad_command(self):
+        self.cantidadproducto=self.cantidadproducto+1
+        self.total=self.precio_incial*self.cantidadproducto
+
+        limpiar=self.ticket.delete(self.t)
+        self.t=self.ticket.insert("","end",text=self.clave, values=(self.marca,self.cantidadproducto,self.total))
+
+    
+    def boton_disminuir_command(self):
+        self.cantidadproducto=self.cantidadproducto-1
+
+        self.total_disminuir=self.precio_incial * self.cantidadproducto
+        limpieza=self.ticket.delete(self.t)
+
+        self.t=self.ticket.insert("","end",text=self.clave, values=(self.marca,self.cantidadproducto,self.total_disminuir))
+
+    def boton_eliminar_command(self):
+        limpiar=self.ticket.delete(self.ticket.selection())
+        self.contador=self.contador-1
+        self.label_contador_producto["text"]=self.contador
+
+        
+    
+
+    def boton_agregar_command(self):
+        if self.tabla.selection():
+            self.contador=self.contador+1
+            self.label_contador_producto["text"]=self.contador
+            self.clave=self.tabla.item(self.tabla.selection())["text"]
+            self.valores=self.tabla.item(self.tabla.selection())["values"]
+
+
+            # print(self.clave)
+            self.marca=self.valores[0]
+            self.precio_incial=float(self.valores[2])
+            
+        
+    
+            self.cantidadproducto=1
+
+            self.t=self.ticket.insert("","end",text=self.clave, values=(self.marca,self.cantidadproducto,self.precio_incial))
+    
+        else:
+            self.label_contador_producto["text"]="selecciona un producto"
+
+
+    
+    def boton_subtotal_command(self):
+        self.billetitos.delete(0,"end")
+
+        suma=0
+        for i in self.ticket.get_children():
+            celda=float(self.ticket.set(i,"pagar"))
+            suma=suma+celda
+
+        entrada=self.billetitos.insert(0,suma)
+
+        
+    def boton_pagar_command(self):
+        messagebox.showinfo(message="su compra fue realizada",title="compra exitosa")
+
+        
+        
+
+        
+        
+        
+
+
+
+        
+        
+   
+
+       
+
+        
+
+        
+
+        
+
+       
+
+
+
+
+
+
+
+    def componentes(self):
+        boton_buscar=tk.Button()
+        boton_buscar["bg"] = "#43bb43"
         ft = tkFont.Font(family='Times',size=10)
-        GButton_850["font"] = ft
-        GButton_850["fg"] = "#fcfdfe"
-        GButton_850["justify"] = "center"
-        GButton_850["text"] = "buscar"
-        GButton_850.place(x=390,rely=0.05,width=65,height=41)
-        GButton_850["command"] = self.GButton_850_command
+        boton_buscar["font"] = ft
+        boton_buscar["fg"] = "#fcfdfe"
+        boton_buscar["justify"] = "center"
+        boton_buscar["text"] = "buscar"
+        boton_buscar.place(x=390,rely=0.05,width=65,height=41)
+        boton_buscar["command"] = self.boton_buscar_command
 
-        GLineEdit_867=tk.Entry(root)
-        GLineEdit_867["bg"] = "#f9f9f9"
-        GLineEdit_867["borderwidth"] = "1px"
+        self.buscar_producto_entry=tk.Entry()
+        self.buscar_producto_entry["bg"] = "#f9f9f9"
+        self.buscar_producto_entry["borderwidth"] = "1px"
         ft = tkFont.Font(family='Times',size=10)
-        GLineEdit_867["font"] = ft
-        GLineEdit_867["fg"] = "#999999"
-        GLineEdit_867["justify"] = "left"
-        GLineEdit_867["text"] = "PRODUCTO"
-        GLineEdit_867.place(relx=0.10,rely=0.05,width=289,height=40)
+        self.buscar_producto_entry["font"] = ft
+        self.buscar_producto_entry["fg"] = "#999999"
+        self.buscar_producto_entry["justify"] = "left"
+        self.buscar_producto_entry["text"] = "PRODUCTO"
+        self.buscar_producto_entry.place(relx=0.10,rely=0.05,width=289,height=40)
 
-        GButton_314=tk.Button(root)
-        GButton_314["bg"] = "#95e895"
+        boton_agregar=tk.Button()
+        boton_agregar["bg"] = "#95e895"
         ft = tkFont.Font(family='Times',size=10)
-        GButton_314["font"] = ft
-        GButton_314["fg"] = "#000000"
-        GButton_314["justify"] = "center"
-        GButton_314["text"] = "AGREGAR"
-        GButton_314.place(x=650,y=120,width=114,height=35)
-        GButton_314["command"] = self.GButton_314_command
+        boton_agregar["font"] = ft
+        boton_agregar["fg"] = "#000000"
+        boton_agregar["justify"] = "center"
+        boton_agregar["text"] = "AGREGAR"
+        boton_agregar.place(x=650,y=120,width=114,height=35)
+        boton_agregar["command"] = self.boton_agregar_command
 
-        GLabel_355=tk.Label(root)
+        GLabel_355=tk.Label()
         GLabel_355["bg"] = "#95a495"
         ft = tkFont.Font(family='Times',size=12)
         GLabel_355["font"] = ft
@@ -54,65 +173,77 @@ class App:
         GLabel_355["text"] = "TOTAL DE LA COMPRA"
         GLabel_355.place(relx=0.05,rely=.90,width=169,height=37)
 
-        GLineEdit_287=tk.Entry(root)
-        GLineEdit_287["bg"] = "#999999"
-        GLineEdit_287["borderwidth"] = "1px"
+        self.billetitos=tk.Entry()
+        self.billetitos["bg"] = "#999999"
+        self.billetitos["borderwidth"] = "1px"
         ft = tkFont.Font(family='Times',size=10)
-        GLineEdit_287["font"] = ft
-        GLineEdit_287["fg"] = "#ffffff"
-        GLineEdit_287["justify"] = "left"
-        GLineEdit_287["text"] = "$400"
-        GLineEdit_287.place(relx=0.22,rely=.90,width=320,height=39)
+        self.billetitos["font"] = ft
+        self.billetitos["fg"] = "#ffffff"
+        self.billetitos["justify"] = "left"
+        self.billetitos["text"] = "$400"
+        self.billetitos.place(relx=0.22,rely=.90,width=320,height=39)
+        
 
-        GLabel_535=tk.Label(root)
+        # self.label_cantidad=tk.Label()
+        # ft = tkFont.Font(family='Times',size=10)
+        # self.label_cantidad["font"] = ft
+        # self.label_cantidad["fg"] = "#333333"
+        # self.label_cantidad["justify"] = ""
+        # self.label_cantidad["text"] = ""
+        # self.label_cantidad.place(x=680,y=180,width=98,height=28)
+
+        boton_disminuir=tk.Button()
+        boton_disminuir["bg"] = "#f0f0f0"
         ft = tkFont.Font(family='Times',size=10)
-        GLabel_535["font"] = ft
-        GLabel_535["fg"] = "#333333"
-        GLabel_535["justify"] = "center"
-        GLabel_535["text"] = "10"
-        GLabel_535.place(x=680,y=180,width=70,height=25)
+        boton_disminuir["font"] = ft
+        boton_disminuir["fg"] = "#000000"
+        boton_disminuir["justify"] = "center"
+        boton_disminuir["text"] = "-"
+        boton_disminuir.place(x=620,y=180,width=70,height=25)
+        boton_disminuir["command"] = self.boton_disminuir_command
 
-        GButton_593=tk.Button(root)
-        GButton_593["bg"] = "#f0f0f0"
+        incrementar_cantidad=tk.Button()
+        incrementar_cantidad["bg"] = "#f0f0f0"
         ft = tkFont.Font(family='Times',size=10)
-        GButton_593["font"] = ft
-        GButton_593["fg"] = "#000000"
-        GButton_593["justify"] = "center"
-        GButton_593["text"] = "-"
-        GButton_593.place(x=620,y=180,width=70,height=25)
-        GButton_593["command"] = self.GButton_593_command
+        incrementar_cantidad["font"] = ft
+        incrementar_cantidad["fg"] = "#000000"
+        incrementar_cantidad["justify"] = "center"
+        incrementar_cantidad["text"] = "+"
+        incrementar_cantidad.place(x=740,y=180,width=70,height=25)
+        incrementar_cantidad["command"] = self.incrementar_cantidad_command
 
-        GButton_457=tk.Button(root)
-        GButton_457["bg"] = "#f0f0f0"
+        boton_subtotal=tk.Button()
+        boton_subtotal["bg"] = "yellow"
         ft = tkFont.Font(family='Times',size=10)
-        GButton_457["font"] = ft
-        GButton_457["fg"] = "#000000"
-        GButton_457["justify"] = "center"
-        GButton_457["text"] = "+"
-        GButton_457.place(x=740,y=180,width=70,height=25)
-        GButton_457["command"] = self.GButton_457_command
+        boton_subtotal["font"] = ft
+        boton_subtotal["fg"] = "#000000"
+        boton_subtotal["justify"] = "center"
+        boton_subtotal["text"] = "Sub Total"
+        boton_subtotal.place(relx=0.39,rely=0.91,width=150,height=31)
+        boton_subtotal["command"] = self.boton_subtotal_command
 
-        GButton_265=tk.Button(root)
-        GButton_265["bg"] = "#f0f0f0"
+        boton_pagar=tk.Button()
+        boton_pagar["bg"] = "green"
         ft = tkFont.Font(family='Times',size=10)
-        GButton_265["font"] = ft
-        GButton_265["fg"] = "#000000"
-        GButton_265["justify"] = "center"
-        GButton_265["text"] = "Confirmar"
-        GButton_265.place(x=620,y=230,width=197,height=30)
-        GButton_265["command"] = self.GButton_265_command
+        boton_pagar["font"] = ft
+        boton_pagar["fg"] = "#000000"
+        boton_pagar["justify"] = "center"
+        boton_pagar["text"] = "Pagar"
+        boton_pagar.place(relx=0.54,rely=0.91,width=150,height=31)
+        boton_pagar["command"] = self.boton_pagar_command
 
-        GButton_53=tk.Button(root)
-        GButton_53["bg"] = "#f0f0f0"
+
+        boton_eliminar=tk.Button()
+        boton_eliminar["bg"] = "red"
         ft = tkFont.Font(family='Times',size=10)
-        GButton_53["font"] = ft
-        GButton_53["fg"] = "#000000"
-        GButton_53["justify"] = "center"
-        GButton_53["text"] = "Eliminar Producto"
-        GButton_53.place(x=650,y=290,width=115,height=30)
-        GButton_53["command"] = self.GButton_53_command
+        boton_eliminar["font"] = ft
+        boton_eliminar["fg"] = "#ffffff"
+        boton_eliminar["justify"] = "center"
+        boton_eliminar["text"] = "Eliminar Producto"
+        boton_eliminar.place(x=650,y=290,width=100,height=20)
+        boton_eliminar["command"] = self.boton_eliminar_command
 
-        GLabel_803=tk.Label(root)
+        GLabel_803=tk.Label()
         ft = tkFont.Font(family='Times',size=10)
         GLabel_803["font"] = ft
         GLabel_803["fg"] = "#333333"
@@ -120,15 +251,15 @@ class App:
         GLabel_803["text"] = "Cantidad de productos"
         GLabel_803.place(x=600,y=70,width=136,height=30)
 
-        GLabel_594=tk.Label(root)
+        self.label_contador_producto=tk.Label()
         ft = tkFont.Font(family='Times',size=10)
-        GLabel_594["font"] = ft
-        GLabel_594["fg"] = "#333333"
-        GLabel_594["justify"] = "center"
-        GLabel_594["text"] = "1"
-        GLabel_594.place(x=740,y=70,width=70,height=25)
+        self.label_contador_producto["font"] = ft
+        self.label_contador_producto["fg"] = "#333333"
+        self.label_contador_producto["justify"] = "center"
+        self.label_contador_producto["text"] = ""
+        self.label_contador_producto.place(x=740,y=70,width=150,height=27)
         
-        GLabel_767=tk.Label(root)
+        GLabel_767=tk.Label()
         GLabel_767["bg"] = "#bbbbbb"
         ft = tkFont.Font(family='Times',size=13)
         GLabel_767["font"] = ft
@@ -137,7 +268,7 @@ class App:
         GLabel_767["text"] = "mi ticket"
         GLabel_767.place(relx=0.20,rely=0.50,width=228,height=37)
 
-        GLabel_847=tk.Label(root)
+        GLabel_847=tk.Label()
         ft = tkFont.Font(family='Times',size=10)
         GLabel_847["font"] = ft
         GLabel_847["fg"] = "#d33d3d"
@@ -146,71 +277,60 @@ class App:
         GLabel_847.place(x=80,y=0,width=251,height=30)
 
 
-        tabla=ttk.Treeview(root,columns=("marca","nombre del producto","peso","precio"),height=5)
+        self.tabla=ttk.Treeview(height=6,columns=("marca","descripcion","precio","cantidad"))
 
-        tabla.column("#0",width=80)
-        tabla.column("nombre del producto",width=80)
-        tabla.column("peso",width=80)
-        tabla.column("precio",width=80)
+        self.tabla.column("#0",width=80)
+        self.tabla.column("marca",width=80)
+        self.tabla.column("descripcion",width=80)
+        self.tabla.column("precio",width=80)
+        self.tabla.column("cantidad", width=89)
+        
+        self.tabla.heading("#0", text="nombre")
+        self.tabla.heading("marca",text="marca")
+        self.tabla.heading("descripcion",text="descripcion")
+        self.tabla.heading("precio",text="precio")
+        self.tabla.heading("cantidad",text="cantidad")
+
+        self.tabla.insert("","end",text="gaseosa",values=("fanta","2.25 lts",315,4))
+
         
 
-        tabla.heading("#0",text="marca")
-        tabla.heading("#1",text="nombre del producto")
-        tabla.heading("#2",text="peso")
-        tabla.heading("#3",text="precio")
-
-        tabla.insert("","end",text="coca cola",values=("gaseosa ","2.25 lts","315"))
-
-        
-
-        # carritos=tabla.insert("","end",text="NOMBRE DE PRODUCTOS")
-        # tabla.insert(carritos,"end",text="gaseosa")
-        # tabla.insert(carritos,"end",text="leche" )
-        # tabla.insert(carritos,"end",text="chocolate" )
-        # usuario=tabla.insert("","end",text="NOMBRE DE USUARIOS")
-        # tabla.insert(usuario,"end",text="naomi")
-        # print(tabla.item(carritos))
+        # carritos=self.tabla.insert("","end",text="NOMBRE DE PRODUCTOS")
+        # self.tabla.insert(carritos,"end",text="gaseosa")
+        # self.tabla.insert(carritos,"end",text="leche" )
+        # self.tabla.insert(carritos,"end",text="chocolate" )
+        # usuario=self.tabla.insert("","end",text="NOMBRE DE USUARIOS")
+        # self.tabla.insert(usuario,"end",text="naomi")
+        # print(self.tabla.item(carritos))
 
         
-        tabla.place(relx=0.05,rely=0.20,width=440)
+        self.tabla.place(relx=0.05,rely=0.20)
 
 
-        marco=ttk.Treeview(root,columns=("productos","marca","cantidad","pagar"),height=8)
-        marco.heading("#0",text="productos")
-        marco.heading("#1",text="marca")
-        marco.heading("#2",text="cantidad")
-        marco.heading("#3",text="pagar")
+        self.ticket=ttk.Treeview(root,columns=("marca","cantidad","pagar"),height=8)
+        self.ticket.heading("#0",text="productos")
+        self.ticket.heading("#1",text="marca")
+        self.ticket.heading("#2",text="cantidad")
+        self.ticket.heading("#3",text="pagar")
 
-        marco.column("#0",width=80)
-        marco.column("marca",width=80)
-        marco.column("cantidad",width=80)
-        marco.column("pagar",width=80)
+        self.ticket.column("#0",width=80)
+        self.ticket.column("marca",width=80)
+        self.ticket.column("cantidad",width=80)
+        self.ticket.column("pagar",width=80)
         
 
-        marco.place(relx=0.05,rely=0.60,width=490)
+        self.ticket.place(relx=0.05,rely=0.60,width=490)
 
-    def GButton_850_command(self):
-        print("command")
-
-
-    def GButton_314_command(self):
-        print("command")
+    
 
 
-    def GButton_593_command(self):
-        print("command")
+    
+
+    
 
 
-    def GButton_457_command(self):
-        print("command")
 
-
-    def GButton_265_command(self):
-        print("command")
-
-
-    def GButton_53_command(self):
-        print("command")
+    
 
 if __name__ == "__main__":
     root = tk.Tk()

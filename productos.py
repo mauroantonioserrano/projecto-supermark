@@ -10,8 +10,6 @@ class Aplicacion(Frame):
         self.pack()
         self.crear_componentes()
         self.obtener_productos()
-
-        self.editar_productos()
         self.base_de_datos()
 
     def base_de_datos(self):
@@ -81,7 +79,7 @@ class Aplicacion(Frame):
         # conexion.commit()
         # conexion.close()
         # self.obtener_productos()
-        pass
+        
 
     
     
@@ -103,10 +101,34 @@ class Aplicacion(Frame):
         # conexion.commit()
         # conexion.close()
         # self.obtener_productos()
-        pass
+
+    
+        
 
 
     def editar_productos(self):
+        conexion=sqlite3.connect("supermercado.db")
+        cursor=conexion.cursor()
+
+        nombre=self.nombre.get()
+        print(nombre)
+
+        marca=self.marca.get()
+        descripcion=self.descripcion.get()
+        precio=self.precio.get()
+        cantidad=self.cantidad.get()
+
+        id=self.tabla.item(self.tabla.selection())["text"]
+        print(id)
+
+
+        cursor.execute(f"UPDATE tienda SET nombre='{nombre}', marca='{marca}',descripcion='{descripcion}',precio='{precio}', cantidad='{cantidad}' WHERE id='{id}' ")
+        conexion.commit()
+        conexion.close()
+        self.obtener_productos()
+
+
+
         # n=self.tabla.item(self.tabla.selection())['text']
         # v=self.tabla.item(self.tabla.selection())['values']
         # print(n)
@@ -114,8 +136,44 @@ class Aplicacion(Frame):
         # conexion = sqlite3.connect("basededatosdesupermercado.db")
         # cursor=conexion.cursor()
 
-        n=self.tabla.item(self.tabla.selection())["text"]
-        p=self.tabla.item(self.tabla.selection())
+        
+      
+    def auto_llenar(self):
+        id=self.tabla.item(self.tabla.selection())["text"]
+        
+        obtenercolumnas=self.tabla.item(self.tabla.selection())["values"]
+        nombre=obtenercolumnas[0]
+        marca=obtenercolumnas[1]
+        descripcion=obtenercolumnas[2]
+        precio=obtenercolumnas[3]
+        cantidad=obtenercolumnas[4]
+
+
+        
+
+
+        i=self.id.delete(0,"end")
+        i=self.id.insert(0,id)
+
+        n=self.nombre.delete(0,"end")
+        n=self.nombre.insert(0,nombre)
+
+        m=self.marca.delete(0,"end")
+        m=self.marca.insert(0,marca)
+
+        d=self.descripcion.delete(0,"end")
+        d=self.descripcion.insert(0,descripcion)
+      
+        p=self.precio.delete(0,"end")
+        p=self.precio.insert(0,precio)
+
+        c=self.cantidad.delete(0,"end")
+        c=self.cantidad.insert(0,cantidad)
+
+
+    
+
+        
 
         
     
@@ -320,6 +378,20 @@ class Aplicacion(Frame):
         GButton_55["text"] = "Actulizar"
         GButton_55.place(relx=0.65,rely=0.30,width=220,height=30)
         GButton_55["command"] = self.editar_productos
+
+        GButton_637=tk.Button()
+        GButton_637["bg"] = "#00ced1"
+        GButton_637["borderwidth"] = "1px"
+        ft = tkFont.Font(family='Times',size=10)
+        GButton_637["font"] = ft
+        GButton_637["fg"] = "#ffffff"
+        GButton_637["justify"] = "center"
+        GButton_637["text"] = "Auto Llenar"
+        GButton_637.place(x=810,y=90,width=117,height=30)
+        GButton_637["command"] = self.auto_llenar
+
+    
+
        
 
 
