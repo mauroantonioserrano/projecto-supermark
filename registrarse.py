@@ -52,14 +52,15 @@ class App:
         self.ingresar_apellido["text"] = "Ingresa tu apellido"
         self.ingresar_apellido.place(x=210,y=110,width=170,height=39)
 
-        ingresar_nombre=tk.Entry(root)
-        ingresar_nombre["borderwidth"] = "1px"
+        self.ingresar_nombre=tk.Entry(root)
+        self.ingresar_nombre.focus()
+        self.ingresar_nombre["borderwidth"] = "1px"
         ft = tkFont.Font(family='Times',size=12)
-        ingresar_nombre["font"] = ft
-        ingresar_nombre["fg"] = "#333333"
-        ingresar_nombre["justify"] = "left"
-        ingresar_nombre["text"] = "ingresa tu nombre"
-        ingresar_nombre.place(x=210,y=160,width=168,height=37)
+        self.ingresar_nombre["font"] = ft
+        self.ingresar_nombre["fg"] = "#333333"
+        self.ingresar_nombre["justify"] = "left"
+        self.ingresar_nombre["text"] = "ingresa tu nombre"
+        self.ingresar_nombre.place(x=210,y=160,width=168,height=37)
 
         GLabel_609=tk.Label(root)
         ft = tkFont.Font(family='Times',size=13)
@@ -69,14 +70,15 @@ class App:
         GLabel_609["text"] = "DNI"
         GLabel_609.place(x=110,y=210,width=70,height=25)
 
-        ingresar_dni=tk.Entry(root)
-        ingresar_dni["borderwidth"] = "1px"
+        self.ingresar_dni=tk.Entry(root)
+        self.ingresar_dni.focus()
+        self.ingresar_dni["borderwidth"] = "1px"
         ft = tkFont.Font(family='Times',size=12)
-        ingresar_dni["font"] = ft
-        ingresar_dni["fg"] = "#333333"
-        ingresar_dni["justify"] = "left"
-        ingresar_dni["text"] = "ingresa tu Dni"
-        ingresar_dni.place(x=210,y=210,width=167,height=37)
+        self.ingresar_dni["font"] = ft
+        self.ingresar_dni["fg"] = "#333333"
+        self.ingresar_dni["justify"] = "left"
+        self.ingresar_dni["text"] = "ingresa tu Dni"
+        self.ingresar_dni.place(x=210,y=210,width=167,height=37)
 
         GLabel_165=tk.Label(root)
         ft = tkFont.Font(family='Times',size=13)
@@ -86,14 +88,15 @@ class App:
         GLabel_165["text"] = "Nombre de Usuario"
         GLabel_165.place(x=40,y=260,width=148,height=47)
 
-        ingresar_nombre_de_usuario=tk.Entry(root)
-        ingresar_nombre_de_usuario["borderwidth"] = "1px"
+        self.ingresar_nombre_de_usuario=tk.Entry(root)
+        self.ingresar_nombre_de_usuario.focus()
+        self.ingresar_nombre_de_usuario["borderwidth"] = "1px"
         ft = tkFont.Font(family='Times',size=12)
-        ingresar_nombre_de_usuario["font"] = ft
-        ingresar_nombre_de_usuario["fg"] = "#333333"
-        ingresar_nombre_de_usuario["justify"] = "left"
-        ingresar_nombre_de_usuario["text"] = "nombre de Usuario"
-        ingresar_nombre_de_usuario.place(x=210,y=260,width=168,height=39)
+        self.ingresar_nombre_de_usuario["font"] = ft
+        self.ingresar_nombre_de_usuario["fg"] = "#333333"
+        self.ingresar_nombre_de_usuario["justify"] = "left"
+        self.ingresar_nombre_de_usuario["text"] = "nombre de Usuario"
+        self.ingresar_nombre_de_usuario.place(x=210,y=260,width=168,height=39)
 
         GLabel_9=tk.Label(root)
         ft = tkFont.Font(family='Times',size=13)
@@ -103,14 +106,15 @@ class App:
         GLabel_9["text"] = "Contraseña"
         GLabel_9.place(x=100,y=310,width=86,height=30)
 
-        ingresar_constrasenia=tk.Entry(root)
-        ingresar_constrasenia["borderwidth"] = "1px"
+        self.ingresar_constrasenia=tk.Entry(root)
+        self.ingresar_constrasenia.focus()
+        self.ingresar_constrasenia["borderwidth"] = "1px"
         ft = tkFont.Font(family='Times',size=12)
-        ingresar_constrasenia["font"] = ft
-        ingresar_constrasenia["fg"] = "#333333"
-        ingresar_constrasenia["justify"] = "left"
-        ingresar_constrasenia["text"] = "contraseña"
-        ingresar_constrasenia.place(x=210,y=310,width=164,height=37)
+        self.ingresar_constrasenia["font"] = ft
+        self.ingresar_constrasenia["fg"] = "#333333"
+        self.ingresar_constrasenia["justify"] = "left"
+        self.ingresar_constrasenia["text"] = "contraseña"
+        self.ingresar_constrasenia.place(x=210,y=310,width=164,height=37)
 
         email_label=tk.Label(root)
         ft = tkFont.Font(family='Times',size=13)
@@ -120,14 +124,15 @@ class App:
         email_label["text"] = "E-mail"
         email_label.place(x=110,y=370,width=70,height=25)
 
-        ingresar_email=tk.Entry(root)
-        ingresar_email["borderwidth"] = "1px"
+        self.ingresar_email=tk.Entry(root)
+        self.ingresar_email.focus()
+        self.ingresar_email["borderwidth"] = "1px"
         ft = tkFont.Font(family='Times',size=12)
-        ingresar_email["font"] = ft
-        ingresar_email["fg"] = "#333333"
-        ingresar_email["justify"] = "left"
-        ingresar_email["text"] = "micorreo@gmail.com"
-        ingresar_email.place(x=210,y=360,width=164,height=41)
+        self.ingresar_email["font"] = ft
+        self.ingresar_email["fg"] = "#333333"
+        self.ingresar_email["justify"] = "left"
+        self.ingresar_email["text"] = "micorreo@gmail.com"
+        self.ingresar_email.place(x=210,y=360,width=164,height=41)
 
         GLabel_672=tk.Label(root)
         ft = tkFont.Font(family='Times',size=13)
@@ -137,15 +142,16 @@ class App:
         GLabel_672["text"] = "Domicilio"
         GLabel_672.place(x=110,y=460,width=70,height=25)
 
-        ingresar_domicilio=tk.Entry(root)
-        ingresar_domicilio["borderwidth"] = "1px"
+        self.ingresar_domicilio=tk.Entry(root)
+        self.ingresar_domicilio.focus()
+        self.ingresar_domicilio["borderwidth"] = "1px"
         ft = tkFont.Font(family='Times',size=12)
-        ingresar_domicilio["font"] = ft
-        ingresar_domicilio["fg"] = "#333333"
-        ingresar_domicilio["justify"] = "left"
-        ingresar_domicilio["text"] = "domicilio"
-        ingresar_domicilio["relief"] = "ridge"
-        ingresar_domicilio.place(x=210,y=460,width=162,height=35)
+        self.ingresar_domicilio["font"] = ft
+        self.ingresar_domicilio["fg"] = "#333333"
+        self.ingresar_domicilio["justify"] = "left"
+        self.ingresar_domicilio["text"] = "domicilio"
+        self.ingresar_domicilio["relief"] = "ridge"
+        self.ingresar_domicilio.place(x=210,y=460,width=162,height=35)
 
         GLabel_823=tk.Label(root)
         ft = tkFont.Font(family='Times',size=13)
@@ -155,14 +161,15 @@ class App:
         GLabel_823["text"] = "Telefono"
         GLabel_823.place(x=110,y=510,width=70,height=25)
 
-        ingresar_telefono=tk.Entry(root)
-        ingresar_telefono["borderwidth"] = "1px"
+        self.ingresar_telefono=tk.Entry(root)
+        self.ingresar_telefono.focus()
+        self.ingresar_telefono["borderwidth"] = "1px"
         ft = tkFont.Font(family='Times',size=12)
-        ingresar_telefono["font"] = ft
-        ingresar_telefono["fg"] = "#333333"
-        ingresar_telefono["justify"] = "left"
-        ingresar_telefono["text"] = "telefono de contacto"
-        ingresar_telefono.place(x=210,y=510,width=161,height=36)
+        self.ingresar_telefono["font"] = ft
+        self.ingresar_telefono["fg"] = "#333333"
+        self.ingresar_telefono["justify"] = "left"
+        self.ingresar_telefono["text"] = "telefono de contacto"
+        self.ingresar_telefono.place(x=210,y=510,width=161,height=36)
 
         boton_confirmar=tk.Button(root)
         boton_confirmar["bg"] = "#f0f0f0"
@@ -213,16 +220,41 @@ class App:
 
     def tabla_registro(self):
         conexion=sqlite3.connect("supermercado.db")
+        cursor=conexion.cursor()
+        #cursor.execute("DROP TABLE usuario")
+        cursor.execute("""CREATE TABLE IF NOT EXISTS usuario (id INTEGER PRIMARY KEY AUTOINCREMENT, apellido TEXT (25) NOT NULL, nombre TEXT (25) NOT NULL, 
+        DNI INTEGER(9) NOT NULL, nombre_de_usuario TEXT NOT NULL,contraseña TEXT (25) NOT NULL, mail TEXT (25) NOT NULL, domicilio TEXT (30) NOT NULL,telefono INTEGER (25) NOT NULL)""")
+        #limpiar=self.tabla_registro.delete(self.t)
         conexion.close()
 
     def boton_confirmar_command(self):
+        conexion=sqlite3.connect("supermercado.db")
+        cursor=conexion.cursor()
         a=self.ingresar_apellido.get()
+        b=self.ingresar_nombre.get()
+        c=self.ingresar_dni.get()
+        d=self.ingresar_nombre_de_usuario.get()
+        e=self.ingresar_constrasenia.get()
+        f=self.ingresar_email.get()
+        g=self.ingresar_domicilio.get()
+        h=self.ingresar_telefono.get()
         print(a)
+        print(b)
+        print(c)
+        print(d)
+        print(e)
+        print(f)
+        print(g)
+        print(h)
+        cursor.execute(f"""INSERT INTO usuario VALUES(NULL, "{a}","{b}", "{c}", "{d}", "{e}", "{f}", "{g}", "{h}")""")
+        conexion.commit()
+        conexion.close()
 
         
-
-
     def boton_limpiar_command(self):
+        limpiar=self.ingresar_apellido.delete(0,"end")
+        #self.ingresar_apellido= " "
+        #self.ingresar_apellido_entry["text"] =self.ingresar_apellido
         print("command")
 
 
