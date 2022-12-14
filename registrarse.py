@@ -209,21 +209,21 @@ class App:
         GLabel_112["text"] = "Confirma tu E-mail"
         GLabel_112.place(x=30,y=410,width=147,height=30)
 
-        ingresar_de_nuevo_tu_correo=tk.Entry(root)
-        ingresar_de_nuevo_tu_correo["borderwidth"] = "1px"
+        self.repetir_email=tk.Entry(root)
+        self.repetir_email["borderwidth"] = "1px"
         ft = tkFont.Font(family='Times',size=12)
-        ingresar_de_nuevo_tu_correo["font"] = ft
-        ingresar_de_nuevo_tu_correo["fg"] = "#333333"
-        ingresar_de_nuevo_tu_correo["justify"] = "left"
-        ingresar_de_nuevo_tu_correo["text"] = "repite tu correo"
-        ingresar_de_nuevo_tu_correo.place(x=210,y=410,width=161,height=36)
+        self.repetir_email["font"] = ft
+        self.repetir_email["fg"] = "#333333"
+        self.repetir_email["justify"] = "left"
+        self.repetir_email["text"] = "repite tu correo"
+        self.repetir_email.place(x=210,y=410,width=161,height=36)
 
     def tabla_registro(self):
         conexion=sqlite3.connect("supermercado.db")
         cursor=conexion.cursor()
-        #cursor.execute("DROP TABLE usuario")
+        # cursor.execute("DROP TABLE usuario")
         cursor.execute("""CREATE TABLE IF NOT EXISTS usuario (id INTEGER PRIMARY KEY AUTOINCREMENT, apellido TEXT (25) NOT NULL, nombre TEXT (25) NOT NULL, 
-        DNI INTEGER(9) NOT NULL, nombre_de_usuario TEXT NOT NULL,contraseña TEXT (25) NOT NULL, mail TEXT (25) NOT NULL, domicilio TEXT (30) NOT NULL,telefono INTEGER (25) NOT NULL)""")
+        DNI INTEGER(9) NOT NULL, nombre_de_usuario TEXT NOT NULL,contraseña TEXT (25) NOT NULL, mail TEXT (30) NOT NULL,confirmar_mail TEXT (30) NOT NULL, domicilio TEXT (30) NOT NULL,telefono INTEGER (25) NOT NULL)""")
         #limpiar=self.tabla_registro.delete(self.t)
         conexion.close()
 
@@ -236,6 +236,7 @@ class App:
         d=self.ingresar_nombre_de_usuario.get()
         e=self.ingresar_constrasenia.get()
         f=self.ingresar_email.get()
+        r=self.repetir_email.get()
         g=self.ingresar_domicilio.get()
         h=self.ingresar_telefono.get()
         print(a)
@@ -244,9 +245,10 @@ class App:
         print(d)
         print(e)
         print(f)
+        print(r)
         print(g)
         print(h)
-        cursor.execute(f"""INSERT INTO usuario VALUES(NULL, "{a}","{b}", "{c}", "{d}", "{e}", "{f}", "{g}", "{h}")""")
+        cursor.execute(f"""INSERT INTO usuario VALUES(NULL, "{a}","{b}", "{c}", "{d}", "{e}", "{f}","{r}" ,"{g}", "{h}")""")
         conexion.commit()
         conexion.close()
 
