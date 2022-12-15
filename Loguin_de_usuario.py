@@ -71,15 +71,15 @@ class App:
         GLabel_787["text"] = "Contraseña"
         GLabel_787.place(relx=0.50,rely=.60,width=200,height=32)
 
-        self._nombre_de_usuario=tk.Entry(root)
-        self._nombre_de_usuario.focus()
-        self._nombre_de_usuario["bg"] = "#f6f1f1"
-        self._nombre_de_usuario["borderwidth"] = "1px"
+        self.nombre_de_usuario=tk.Entry(root)
+        self.nombre_de_usuario.focus()
+        self.nombre_de_usuario["bg"] = "#f6f1f1"
+        self.nombre_de_usuario["borderwidth"] = "1px"
         ft = tkFont.Font(family='Times',size=13)
-        self._nombre_de_usuario["font"] = ft
-        self._nombre_de_usuario["fg"] = "black"
-        self._nombre_de_usuario["justify"] = "left"
-        self._nombre_de_usuario.place(relx=0.75,rely=.45,width=180,height=32)
+        self.nombre_de_usuario["font"] = ft
+        self.nombre_de_usuario["fg"] = "black"
+        self.nombre_de_usuario["justify"] = "left"
+        self.nombre_de_usuario.place(relx=0.75,rely=.45,width=180,height=32)
 
         self.contrasenia=tk.Entry(root)
         self.contrasenia["bg"] = "#f7f5f5"
@@ -111,12 +111,13 @@ class App:
         boton_registrarse.place(x=770,rely=.80,width=95,height=41)
         boton_registrarse["command"] = self.boton_registrarse_command
 
+        
     def boton_ingresar_command(self):
-        self._nombre_de_usuario=self._nombre_de_usuario.get()
-        self.contrasenia=self.contrasenia.get()
+        nombre_de_usuario=self.nombre_de_usuario.get()
+        contrasenia=self.contrasenia.get()
 
-        print(self._nombre_de_usuario)
-        print(self.contrasenia)
+        print(nombre_de_usuario)
+        print(contrasenia)
 
         conexion=sqlite3.connect("supermercado.db")
         cursor=conexion.cursor()
@@ -125,7 +126,7 @@ class App:
         contador=0
         for id,apellido,nombre,dni,nombre_usuario,contraseña,email,confirmar_email,domicilio,telefono in mostrar:
 
-            if nombre_usuario == self._nombre_de_usuario and contraseña == self.contrasenia:
+            if nombre_usuario == nombre_de_usuario and contraseña == contrasenia:
                 contador+=1
 
         if contador==1:
@@ -133,20 +134,8 @@ class App:
         elif contador==0:
              messagebox.showinfo(message="no se encontro su perfil o contraseña intente nevamente")
 
-                
-        
-                
-            
-
-            
-        conexion.close()
-        
-    
-
-
-    def boton_registrarse_command(self):
-        print("command")
-        
+                   
+        conexion.close()        
 
 
     def boton_registrarse_command(self):
