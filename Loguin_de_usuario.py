@@ -2,6 +2,8 @@ import tkinter as tk
 import tkinter.font as tkFont
 from tkinter import *
 from PIL import ImageTk,Image
+import sqlite3
+from tkinter import messagebox
 
 
 
@@ -69,24 +71,24 @@ class App:
         GLabel_787["text"] = "Contraseña"
         GLabel_787.place(relx=0.50,rely=.60,width=200,height=32)
 
-        nombre_de_usuario=tk.Entry(root)
-        nombre_de_usuario.focus()
-        nombre_de_usuario["bg"] = "#f6f1f1"
-        nombre_de_usuario["borderwidth"] = "1px"
+        self._nombre_de_usuario=tk.Entry(root)
+        self._nombre_de_usuario.focus()
+        self._nombre_de_usuario["bg"] = "#f6f1f1"
+        self._nombre_de_usuario["borderwidth"] = "1px"
         ft = tkFont.Font(family='Times',size=13)
-        nombre_de_usuario["font"] = ft
-        nombre_de_usuario["fg"] = "black"
-        nombre_de_usuario["justify"] = "left"
-        nombre_de_usuario.place(relx=0.75,rely=.45,width=180,height=32)
+        self._nombre_de_usuario["font"] = ft
+        self._nombre_de_usuario["fg"] = "black"
+        self._nombre_de_usuario["justify"] = "left"
+        self._nombre_de_usuario.place(relx=0.75,rely=.45,width=180,height=32)
 
-        contrasenia=tk.Entry(root)
-        contrasenia["bg"] = "#f7f5f5"
-        contrasenia["borderwidth"] = "1px"
+        self.contrasenia=tk.Entry(root)
+        self.contrasenia["bg"] = "#f7f5f5"
+        self.contrasenia["borderwidth"] = "1px"
         ft = tkFont.Font(family='Times',size=13)
-        contrasenia["font"] = ft
-        contrasenia["fg"] = "#333333"
-        contrasenia["justify"] = "left"
-        contrasenia.place(relx=0.75,rely=.60,width=180,height=32)
+        self.contrasenia["font"] = ft
+        self.contrasenia["fg"] = "#333333"
+        self.contrasenia["justify"] = "left"
+        self.contrasenia.place(relx=0.75,rely=.60,width=180,height=32)
 
         boton_ingresar=tk.Button(root)
         boton_ingresar["bg"] = "#009688"
@@ -110,7 +112,41 @@ class App:
         boton_registrarse["command"] = self.boton_registrarse_command
 
     def boton_ingresar_command(self):
+        self._nombre_de_usuario=self._nombre_de_usuario.get()
+        self.contrasenia=self.contrasenia.get()
+
+        print(self._nombre_de_usuario)
+        print(self.contrasenia)
+
+        conexion=sqlite3.connect("supermercado.db")
+        cursor=conexion.cursor()
+        cursor.execute("select * from usuario")
+        mostrar=cursor.fetchall()
+        contador=0
+        for id,apellido,nombre,dni,nombre_usuario,contraseña,email,confirmar_email,domicilio,telefono in mostrar:
+
+            if nombre_usuario == self._nombre_de_usuario and contraseña == self.contrasenia:
+                contador+=1
+
+        if contador==1:
+            messagebox.showinfo(message="incio de sesion con exito")
+        elif contador==0:
+             messagebox.showinfo(message="no se encontro su perfil o contraseña intente nevamente")
+
+                
+        
+                
+            
+
+            
+        conexion.close()
+        
+    
+
+
+    def boton_registrarse_command(self):
         print("command")
+        
 
 
     def boton_registrarse_command(self):
