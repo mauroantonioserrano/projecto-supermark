@@ -1,7 +1,8 @@
 import tkinter as tk
 import tkinter.font as tkFont
+from carrito import Carrito
 
-class App:
+class Ventana_Bienvenido:
     def __init__(self, root):
         #setting title
         root.title("Bienvenido")
@@ -58,9 +59,10 @@ class App:
         GLabel_58.place(x=170,y=110,width=236,height=31)
 
     def GButton_319_command(self):
-        print("command")
+        ventana_carrito=tk.Toplevel()
+        app=Carrito(ventana_carrito)
 
 if __name__ == "__main__":
     root = tk.Tk()
-    app = App(root)
+    ventana_bienvenido = Ventana_Bienvenido(root)
     root.mainloop()

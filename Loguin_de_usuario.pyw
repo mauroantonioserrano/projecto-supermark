@@ -4,7 +4,8 @@ from tkinter import *
 from PIL import ImageTk,Image
 import sqlite3
 from tkinter import messagebox
-
+from registrarse  import Registrarse
+from Ventana_Bienvenido import Ventana_Bienvenido
 
 
 class App:
@@ -131,6 +132,9 @@ class App:
 
         if contador==1:
             messagebox.showinfo(message="incio de sesion con exito")
+            ventana_bienvenido=Toplevel()
+            app = Ventana_Bienvenido(ventana_bienvenido)
+
         elif contador==0:
              messagebox.showinfo(message="no se encontro su perfil o contraseña intente nevamente")
 
@@ -139,7 +143,8 @@ class App:
 
 
     def boton_registrarse_command(self):
-        print("command")
+        ventana2=Toplevel()
+        app = Registrarse(ventana2)
 
 if __name__ == "__main__":
     root = tk.Tk()

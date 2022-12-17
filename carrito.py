@@ -6,7 +6,7 @@ from  PIL import Image,ImageTk
 from tkinter import messagebox
 
 
-class App:
+class Carrito:
     def __init__(self, root):
         #setting title
         root.title("Tienda")
@@ -33,7 +33,7 @@ class App:
         label_imagen.configure(image=root.imagen_tk)
         label_imagen.place(relx=0,rely=0)
 
-        boton_buscar=tk.Button()
+        boton_buscar=tk.Button(root)
         boton_buscar["bg"] = "#43bb43"
         ft = tkFont.Font(family='Times',size=10)
         boton_buscar["font"] = ft
@@ -43,7 +43,7 @@ class App:
         boton_buscar.place(x=390,rely=0.05,width=70,height=41)
         boton_buscar["command"] = self.boton_buscar_command
 
-        self.buscar_producto_entry=tk.Entry()
+        self.buscar_producto_entry=tk.Entry(root)
         self.buscar_producto_entry["bg"] = "#f9f9f9"
         self.buscar_producto_entry["borderwidth"] = "1px"
         ft = tkFont.Font(family='Times',size=10)
@@ -53,7 +53,7 @@ class App:
         self.buscar_producto_entry["text"] = "PRODUCTO"
         self.buscar_producto_entry.place(relx=0.10,rely=0.05,width=289,height=40)
 
-        boton_agregar=tk.Button()
+        boton_agregar=tk.Button(root)
         boton_agregar["bg"] = "#95e895"
         ft = tkFont.Font(family='Times',size=10)
         boton_agregar["font"] = ft
@@ -63,7 +63,7 @@ class App:
         boton_agregar.place(relx=.80,rely=.25,width=170,height=35)
         boton_agregar["command"] = self.boton_agregar_command
 
-        GLabel_355=tk.Label()
+        GLabel_355=tk.Label(root)
         GLabel_355["bg"] = "#95a495"
         ft = tkFont.Font(family='Times',size=12)
         GLabel_355["font"] = ft
@@ -72,7 +72,7 @@ class App:
         GLabel_355["text"] = "TOTAL DE LA COMPRA"
         GLabel_355.place(relx=0.05,rely=.90,width=169,height=37)
 
-        self.billetitos=tk.Entry()
+        self.billetitos=tk.Entry(root)
         self.billetitos["bg"] = "#999999"
         self.billetitos["borderwidth"] = "1px"
         ft = tkFont.Font(family='Times',size=10)
@@ -91,7 +91,7 @@ class App:
         # self.label_cantidad["text"] = ""
         # self.label_cantidad.place(x=680,y=180,width=98,height=28)
 
-        boton_disminuir=tk.Button()
+        boton_disminuir=tk.Button(root)
         boton_disminuir["bg"] = "#f0f0f0"
         ft = tkFont.Font(family='Times',size=10)
         boton_disminuir["font"] = ft
@@ -102,7 +102,7 @@ class App:
         boton_disminuir.place(relx=.80,rely=.35,width=70,height=30)
         boton_disminuir["command"] = self.boton_disminuir_command
 
-        incrementar_cantidad=tk.Button()
+        incrementar_cantidad=tk.Button(root)
         incrementar_cantidad["bg"] = "#f0f0f0"
         ft = tkFont.Font(family='Times',size=15)
         incrementar_cantidad["font"] = ft
@@ -113,7 +113,7 @@ class App:
         incrementar_cantidad.place(relx=0.90,rely=.35,width=70,height=30)
         incrementar_cantidad["command"] = self.incrementar_cantidad_command
 
-        boton_subtotal=tk.Button()
+        boton_subtotal=tk.Button(root)
         boton_subtotal["bg"] = "yellow"
         ft = tkFont.Font(family='Times',size=15)
         boton_subtotal["font"] = ft
@@ -123,7 +123,7 @@ class App:
         boton_subtotal.place(relx=0.39,rely=0.91,width=150,height=31)
         boton_subtotal["command"] = self.boton_subtotal_command
 
-        boton_pagar=tk.Button()
+        boton_pagar=tk.Button(root)
         boton_pagar["bg"] = "green"
         ft = tkFont.Font(family='Times',size=15)
         boton_pagar["font"] = ft
@@ -147,7 +147,7 @@ class App:
         boton_eliminar.place(relx=.55,rely=.60,width=100,height=50)
         boton_eliminar["command"] = self.boton_eliminar_command
 
-        GLabel_803=tk.Label()
+        GLabel_803=tk.Label(root)
         ft = tkFont.Font(family='Times',size=10)
         GLabel_803["font"] = ft
         GLabel_803["fg"] = "#333333"
@@ -156,7 +156,7 @@ class App:
         GLabel_803["text"] = "Cantidad de productos"
         GLabel_803.place(x=600,y=70,width=136,height=30)
 
-        self.label_contador_producto=tk.Label()
+        self.label_contador_producto=tk.Label(root)
         ft = tkFont.Font(family='Times',size=10)
         self.label_contador_producto["font"] = ft
         self.label_contador_producto["fg"] = "#333333"
@@ -164,7 +164,7 @@ class App:
         self.label_contador_producto["text"] = ""
         self.label_contador_producto.place(x=740,y=70,width=150,height=27)
         
-        GLabel_767=tk.Label()
+        GLabel_767=tk.Label(root)
         GLabel_767["bg"] = "#bbbbbb"
         ft = tkFont.Font(family='Times',size=13)
         GLabel_767["font"] = ft
@@ -173,7 +173,7 @@ class App:
         GLabel_767["text"] = "Carrito"
         GLabel_767.place(relx=0.20,rely=0.50,width=228,height=37)
 
-        GLabel_768=tk.Label()
+        GLabel_768=tk.Label(root)
         GLabel_768["bg"] = "#bbbbbb"
         ft = tkFont.Font(family='Times',size=13)
         GLabel_768["font"] = ft
@@ -182,7 +182,7 @@ class App:
         GLabel_768["text"] = "Catalogo de Productos"
         GLabel_768.place(relx=0.15,rely=0.13,width=228,height=37)
 
-        GLabel_847=tk.Label()
+        GLabel_847=tk.Label(root)
         ft = tkFont.Font(family='Times',size=10)
         GLabel_847["font"] = ft
         GLabel_847["fg"] = "#d33d3d"
@@ -191,7 +191,7 @@ class App:
         GLabel_847.place(x=80,y=0,width=251,height=30)
 
 
-        self.tabla=ttk.Treeview(height=6,columns=("marca","descripcion","precio","cantidad"))
+        self.tabla=ttk.Treeview(root,height=6,columns=("marca","descripcion","precio","cantidad"))
 
         self.tabla.column("#0",width=80)
         self.tabla.column("marca",width=80)
@@ -320,24 +320,10 @@ class App:
         messagebox.showinfo(message="su compra fue realizada",title="compra exitosa")
 
         
-        
-
-
-
-    
-
-    
-
-
-    
-
-    
-
-
 
     
 
 if __name__ == "__main__":
     root = tk.Tk()
-    app = App(root)
+    carrito = Carrito(root)
     root.mainloop()

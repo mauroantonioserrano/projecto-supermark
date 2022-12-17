@@ -4,7 +4,7 @@ import sqlite3
 from tkinter import messagebox
 from PIL import Image, ImageTk
 
-class App:
+class Registrarse:
     def __init__(self, root):
         #setting title
         root.title("registrarse")
@@ -322,7 +322,10 @@ class App:
     def boton_cerrar_command(self):
         self.boton_cerrar.quit()
 
+
 if __name__ == "__main__":
     root = tk.Tk()
-    app = App(root)
+    registrarse = Registrarse(root)
     root.mainloop()
+
+
