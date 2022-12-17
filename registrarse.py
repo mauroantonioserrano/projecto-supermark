@@ -1,6 +1,8 @@
 import tkinter as tk
 import tkinter.font as tkFont
 import sqlite3
+from tkinter import messagebox
+from PIL import Image, ImageTk
 
 class App:
     def __init__(self, root):
@@ -14,33 +16,51 @@ class App:
         alignstr = '%dx%d+%d+%d' % (width, height, (screenwidth - width) / 2, (screenheight - height) / 2)
         root.geometry(alignstr)
         root.resizable(width=False, height=False)
+          # Crea una imagen a partir de un archivo
+        root.imagen = Image.open("istockphoto-1275827044-612x612 - Editada.png")
+        root.imagen=root.imagen.resize((850,700),Image.ANTIALIAS)
+
+        
+        # Crea una imagen que pueda ser mostrada en un widget de tkinter
+        root.imagen_tk = ImageTk.PhotoImage(root.imagen)
+
+        # Crea un widget Label y lo configura para mostrar la imagen
+        label_imagen = tk.Label(root)
+        label_imagen.configure(image=root.imagen_tk)
+        label_imagen.place(relx=0,rely=0)
+
+
         self.tabla_registro()
+
 
         GLabel_485=tk.Label(root)
         GLabel_485["activebackground"] = "#1e90ff"
         GLabel_485["anchor"] = "nw"
         ft = tkFont.Font(family='Times',size=16)
         GLabel_485["font"] = ft
-        GLabel_485["fg"] = "#333333"
+        GLabel_485["fg"] = "white"
+        GLabel_485["bg"] ="grey"
         GLabel_485["justify"] = "center"
-        GLabel_485["text"] = "Completa con tus datos para Comenzar"
-        GLabel_485.place(x=140,y=10,width=344,height=66)
+        GLabel_485["text"] = "Completa con tus datos para registrarte "
+        GLabel_485.place(x=140,y=10)
 
         GLabel_34=tk.Label(root)
         ft = tkFont.Font(family='Times',size=13)
         GLabel_34["font"] = ft
-        GLabel_34["fg"] = "#333333"
+        GLabel_34["fg"] = "white"
         GLabel_34["justify"] = "right"
+        GLabel_34["bg"]="grey"
         GLabel_34["text"] = "Apellido"
-        GLabel_34.place(x=120,y=120,width=70,height=25)
+        GLabel_34.place(relx=0.05,rely=0.15)
 
         GLabel_817=tk.Label(root)
         ft = tkFont.Font(family='Times',size=13)
         GLabel_817["font"] = ft
-        GLabel_817["fg"] = "#333333"
+        GLabel_817["fg"] = "white"
+        GLabel_817["bg"]="grey"
         GLabel_817["justify"] = "right"
         GLabel_817["text"] = "Nombre"
-        GLabel_817.place(x=120,y=160,width=70,height=25)
+        GLabel_817.place(relx=0.50,rely=0.15)
 
         self.ingresar_apellido=tk.Entry(root)
         self.ingresar_apellido.focus()
@@ -50,7 +70,7 @@ class App:
         self.ingresar_apellido["fg"] = "#333333"
         self.ingresar_apellido["justify"] = "left"
         self.ingresar_apellido["text"] = "Ingresa tu apellido"
-        self.ingresar_apellido.place(x=210,y=110,width=170,height=39)
+        self.ingresar_apellido.place(relx=0.18,rely=0.15)
 
         self.ingresar_nombre=tk.Entry(root)
         self.ingresar_nombre.focus()
@@ -60,15 +80,16 @@ class App:
         self.ingresar_nombre["fg"] = "#333333"
         self.ingresar_nombre["justify"] = "left"
         self.ingresar_nombre["text"] = "ingresa tu nombre"
-        self.ingresar_nombre.place(x=210,y=160,width=168,height=37)
+        self.ingresar_nombre.place(relx=0.60,rely=0.15)
 
         GLabel_609=tk.Label(root)
         ft = tkFont.Font(family='Times',size=13)
         GLabel_609["font"] = ft
-        GLabel_609["fg"] = "#333333"
+        GLabel_609["fg"] = "white"
+        GLabel_609["bg"] = "grey"
         GLabel_609["justify"] = "right"
         GLabel_609["text"] = "DNI"
-        GLabel_609.place(x=110,y=210,width=70,height=25)
+        GLabel_609.place(relx=0.05,rely=0.25)
 
         self.ingresar_dni=tk.Entry(root)
         self.ingresar_dni.focus()
@@ -78,15 +99,16 @@ class App:
         self.ingresar_dni["fg"] = "#333333"
         self.ingresar_dni["justify"] = "left"
         self.ingresar_dni["text"] = "ingresa tu Dni"
-        self.ingresar_dni.place(x=210,y=210,width=167,height=37)
+        self.ingresar_dni.place(relx=0.18,rely=0.25)
 
         GLabel_165=tk.Label(root)
         ft = tkFont.Font(family='Times',size=13)
         GLabel_165["font"] = ft
-        GLabel_165["fg"] = "#333333"
+        GLabel_165["fg"] = "white"
+        GLabel_165["bg"] = "grey"
         GLabel_165["justify"] = "right"
         GLabel_165["text"] = "Nombre de Usuario"
-        GLabel_165.place(x=40,y=260,width=148,height=47)
+        GLabel_165.place(relx=.5,rely=0.25)
 
         self.ingresar_nombre_de_usuario=tk.Entry(root)
         self.ingresar_nombre_de_usuario.focus()
@@ -96,33 +118,54 @@ class App:
         self.ingresar_nombre_de_usuario["fg"] = "#333333"
         self.ingresar_nombre_de_usuario["justify"] = "left"
         self.ingresar_nombre_de_usuario["text"] = "nombre de Usuario"
-        self.ingresar_nombre_de_usuario.place(x=210,y=260,width=168,height=39)
+        self.ingresar_nombre_de_usuario.place(relx=0.74,rely=0.25,width=140)
 
         GLabel_9=tk.Label(root)
         ft = tkFont.Font(family='Times',size=13)
         GLabel_9["font"] = ft
-        GLabel_9["fg"] = "#333333"
+        GLabel_9["fg"] = "white"
+        GLabel_9["bg"] ="grey"
         GLabel_9["justify"] = "right"
         GLabel_9["text"] = "Contraseña"
-        GLabel_9.place(x=100,y=310,width=86,height=30)
+        GLabel_9.place(relx=0.05,rely=0.45)
 
-        self.ingresar_constrasenia=tk.Entry(root)
-        self.ingresar_constrasenia.focus()
-        self.ingresar_constrasenia["borderwidth"] = "1px"
+        self.ingresa_contrasenia=tk.Entry(root)
+        self.ingresa_contrasenia.focus()
+        self.ingresa_contrasenia["borderwidth"] = "1px"
         ft = tkFont.Font(family='Times',size=12)
-        self.ingresar_constrasenia["font"] = ft
-        self.ingresar_constrasenia["fg"] = "#333333"
-        self.ingresar_constrasenia["justify"] = "left"
-        self.ingresar_constrasenia["text"] = "contraseña"
-        self.ingresar_constrasenia.place(x=210,y=310,width=164,height=37)
+        self.ingresa_contrasenia["font"] = ft
+        self.ingresa_contrasenia["fg"] = "#333333"
+        self.ingresa_contrasenia["justify"] = "left"
+        self.ingresa_contrasenia["text"] = "contraseña"
+        self.ingresa_contrasenia.place(relx=0.18,rely=0.45)
+
+        GLabel_100=tk.Label(root)
+        ft = tkFont.Font(family='Times',size=13)
+        GLabel_100["font"] = ft
+        GLabel_100["fg"] = "white"
+        GLabel_100["bg"] = "grey"
+        GLabel_100["justify"] = "right"
+        GLabel_100["text"] = "Confirmar Contraseña"
+        GLabel_100.place(relx=0.50,rely=0.45)
+
+        self.confirmar_contrasenia=tk.Entry(root)
+        self.confirmar_contrasenia.focus()
+        self.confirmar_contrasenia["borderwidth"] = "1px"
+        ft = tkFont.Font(family='Times',size=12)
+        self.confirmar_contrasenia["font"] = ft
+        self.confirmar_contrasenia["fg"] = "#333333"
+        self.confirmar_contrasenia["justify"] = "left"
+        self.confirmar_contrasenia["text"] = "confirmar contraseña"
+        self.confirmar_contrasenia.place(relx=0.76,rely=0.45,width=130)
 
         email_label=tk.Label(root)
         ft = tkFont.Font(family='Times',size=13)
         email_label["font"] = ft
-        email_label["fg"] = "#333333"
+        email_label["fg"] = "white"
+        email_label["bg"]="grey"
         email_label["justify"] = "right"
         email_label["text"] = "E-mail"
-        email_label.place(x=110,y=370,width=70,height=25)
+        email_label.place(relx=0.05,rely=0.35)
 
         self.ingresar_email=tk.Entry(root)
         self.ingresar_email.focus()
@@ -132,15 +175,16 @@ class App:
         self.ingresar_email["fg"] = "#333333"
         self.ingresar_email["justify"] = "left"
         self.ingresar_email["text"] = "micorreo@gmail.com"
-        self.ingresar_email.place(x=210,y=360,width=164,height=41)
+        self.ingresar_email.place(relx=0.18,rely=0.35)
 
         GLabel_672=tk.Label(root)
         ft = tkFont.Font(family='Times',size=13)
         GLabel_672["font"] = ft
-        GLabel_672["fg"] = "#333333"
+        GLabel_672["fg"] = "white"
+        GLabel_672["bg"] ="grey"
         GLabel_672["justify"] = "right"
         GLabel_672["text"] = "Domicilio"
-        GLabel_672.place(x=110,y=460,width=70,height=25)
+        GLabel_672.place(relx=0.05,rely=.55)
 
         self.ingresar_domicilio=tk.Entry(root)
         self.ingresar_domicilio.focus()
@@ -151,15 +195,16 @@ class App:
         self.ingresar_domicilio["justify"] = "left"
         self.ingresar_domicilio["text"] = "domicilio"
         self.ingresar_domicilio["relief"] = "ridge"
-        self.ingresar_domicilio.place(x=210,y=460,width=162,height=35)
+        self.ingresar_domicilio.place(relx=0.18,rely=.55)
 
         GLabel_823=tk.Label(root)
         ft = tkFont.Font(family='Times',size=13)
         GLabel_823["font"] = ft
-        GLabel_823["fg"] = "#333333"
+        GLabel_823["fg"] = "white"
+        GLabel_823["bg"] ="grey"
         GLabel_823["justify"] = "right"
         GLabel_823["text"] = "Telefono"
-        GLabel_823.place(x=110,y=510,width=70,height=25)
+        GLabel_823.place(relx=.5,rely=.55)
 
         self.ingresar_telefono=tk.Entry(root)
         self.ingresar_telefono.focus()
@@ -169,13 +214,14 @@ class App:
         self.ingresar_telefono["fg"] = "#333333"
         self.ingresar_telefono["justify"] = "left"
         self.ingresar_telefono["text"] = "telefono de contacto"
-        self.ingresar_telefono.place(x=210,y=510,width=161,height=36)
+        self.ingresar_telefono.place(relx=0.63,rely=.55)
 
         boton_confirmar=tk.Button(root)
         boton_confirmar["bg"] = "#f0f0f0"
         ft = tkFont.Font(family='Times',size=13)
         boton_confirmar["font"] = ft
-        boton_confirmar["fg"] = "#000000"
+        boton_confirmar["fg"] = "white"
+        boton_confirmar["bg"]="green"
         boton_confirmar["justify"] = "center"
         boton_confirmar["text"] = "Confirmar"
         boton_confirmar.place(x=280,y=570,width=98,height=35)
@@ -185,29 +231,32 @@ class App:
         boton_limpiar["bg"] = "#f0f0f0"
         ft = tkFont.Font(family='Times',size=11)
         boton_limpiar["font"] = ft
-        boton_limpiar["fg"] = "#000000"
+        boton_limpiar["bg"]="grey"
+        boton_limpiar["fg"] = "white"
         boton_limpiar["justify"] = "center"
         boton_limpiar["text"] = "Limpiar"
-        boton_limpiar.place(x=60,y=590,width=98,height=36)
+        boton_limpiar.place(relx=.15,rely=.89,width=98,height=36)
         boton_limpiar["command"] = self.boton_limpiar_command
 
-        boton_cerrar=tk.Button(root)
-        boton_cerrar["bg"] = "#f0f0f0"
+        self.boton_cerrar=tk.Button(root)
+        self.boton_cerrar["bg"] = "#f0f0f0"
         ft = tkFont.Font(family='Times',size=13)
-        boton_cerrar["font"] = ft
-        boton_cerrar["fg"] = "#000000"
-        boton_cerrar["justify"] = "center"
-        boton_cerrar["text"] = "Cerrar"
-        boton_cerrar.place(x=400,y=570,width=89,height=33)
-        boton_cerrar["command"] = self.boton_cerrar_command
+        self.boton_cerrar["font"] = ft
+        self.boton_cerrar["fg"] = "white"
+        self.boton_cerrar["bg"] = "red"
+        self.boton_cerrar["justify"] = "center"
+        self.boton_cerrar["text"] = "Cerrar"
+        self.boton_cerrar.place(x=400,y=570,width=89,height=33)
+        self.boton_cerrar["command"] =self.boton_cerrar_command
 
         GLabel_112=tk.Label(root)
         ft = tkFont.Font(family='Times',size=13)
         GLabel_112["font"] = ft
-        GLabel_112["fg"] = "#333333"
+        GLabel_112["fg"] = "white"
+        GLabel_112["bg"] = "grey"
         GLabel_112["justify"] = "right"
         GLabel_112["text"] = "Confirma tu E-mail"
-        GLabel_112.place(x=30,y=410,width=147,height=30)
+        GLabel_112.place(relx=0.5,rely=0.35)
 
         self.repetir_email=tk.Entry(root)
         self.repetir_email["borderwidth"] = "1px"
@@ -216,7 +265,7 @@ class App:
         self.repetir_email["fg"] = "#333333"
         self.repetir_email["justify"] = "left"
         self.repetir_email["text"] = "repite tu correo"
-        self.repetir_email.place(x=210,y=410,width=161,height=36)
+        self.repetir_email.place(relx=0.74,rely=0.35,width=140)
 
     def tabla_registro(self):
         conexion=sqlite3.connect("supermercado.db")
@@ -234,7 +283,7 @@ class App:
         b=self.ingresar_nombre.get()
         c=self.ingresar_dni.get()
         d=self.ingresar_nombre_de_usuario.get()
-        e=self.ingresar_constrasenia.get()
+        e=self.ingresa_contrasenia.get()
         f=self.ingresar_email.get()
         r=self.repetir_email.get()
         g=self.ingresar_domicilio.get()
@@ -251,17 +300,27 @@ class App:
         cursor.execute(f"""INSERT INTO usuario VALUES(NULL, "{a}","{b}", "{c}", "{d}", "{e}", "{f}","{r}" ,"{g}", "{h}")""")
         conexion.commit()
         conexion.close()
+        messagebox.showinfo(message="se han guardados sus datos",title="ventana registro")
 
         
     def boton_limpiar_command(self):
-        limpiar=self.ingresar_apellido.delete(0,"end")
+        self.ingresar_apellido.delete(0,"end")
+        self.ingresar_nombre.delete(0,"end")
+        self.ingresar_dni.delete(0,"end")
+        self.ingresar_nombre_de_usuario.delete(0,"end")
+        self.ingresar_email.delete(0,"end")
+        self.repetir_email.delete(0,"end")
+        self.ingresa_contrasenia.delete(0,"end")
+        self.confirmar_contrasenia.delete(0,"end")
+        self.ingresar_domicilio.delete(0,"end")
+        self.ingresar_telefono.delete(0,"end")
         #self.ingresar_apellido= " "
         #self.ingresar_apellido_entry["text"] =self.ingresar_apellido
-        print("command")
+        
 
 
     def boton_cerrar_command(self):
-        print("command")
+        self.boton_cerrar.quit()
 
 if __name__ == "__main__":
     root = tk.Tk()

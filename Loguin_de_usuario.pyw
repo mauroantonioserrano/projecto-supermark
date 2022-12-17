@@ -60,7 +60,7 @@ class App:
         GLabel_383["font"] = ft
         GLabel_383["fg"] = "#333333"
         GLabel_383["justify"] = "left"
-        GLabel_383["text"] = "Nombre de Usario"
+        GLabel_383["text"] = "Nombre de Usuario"
         GLabel_383.place(relx=0.50,rely=.45,width=200,height=32)
 
         GLabel_787=tk.Label(root)

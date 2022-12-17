@@ -3,14 +3,29 @@ import tkinter.font as tkFont
 from tkinter import ttk
 import sqlite3 
 from tkinter import *
+from PIL import Image, ImageTk
 class Aplicacion(Frame):
     def __init__(self, marco):
         super().__init__(marco)
         self.marco=marco
         self.pack()
+         # Crea una imagen a partir de un archivo
+        self.imagen = Image.open("tecnologia.jpg")
+        self.imagen=self.imagen.resize((1300,700),Image.ANTIALIAS)
+
+        
+        # Crea una imagen que pueda ser mostrada en un widget de tkinter
+        self.imagen_tk = ImageTk.PhotoImage(self.imagen)
+
+    
         self.crear_componentes()
         self.obtener_productos()
         self.base_de_datos()
+
+
+
+
+        
 
     def base_de_datos(self):
         conexion=sqlite3.connect("supermercado.db")
@@ -197,7 +212,11 @@ class Aplicacion(Frame):
         
         
     def crear_componentes(self):    
-        
+        # Crea un widget Label y lo configura para mostrar la imagen
+        label_imagen = tk.Label()
+        label_imagen.configure(image=self.imagen_tk)
+        label_imagen.place(relx=0,rely=0)
+
         GLabel_464=tk.Label()
         GLabel_464["bg"] = "#90ee90"
         ft = tkFont.Font(family='Times',size=17)
@@ -406,6 +425,7 @@ class Aplicacion(Frame):
 principal=Tk()
 principal.wm_title("Producto")
 principal.geometry("1080x800")
-principal.config(bg="black")
 marco=Aplicacion(principal)
+
+
 principal.mainloop()
