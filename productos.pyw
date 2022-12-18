@@ -4,6 +4,7 @@ from tkinter import ttk
 import sqlite3 
 from tkinter import *
 from PIL import Image, ImageTk
+import random
 class Aplicacion(Frame):
     def __init__(self, marco):
         super().__init__(marco)
@@ -30,12 +31,14 @@ class Aplicacion(Frame):
     def base_de_datos(self):
         conexion=sqlite3.connect("supermercado.db")
         cursor=conexion.cursor()
-        cursor.execute("CREATE TABLE IF NOT EXISTS tienda(id INTEGER NOT NULL,nombre TEXT NOT NULL,marca TEXT,descripcion TEXT,precio REAL NOT NULL,cantidad INTEGER NOT NULL,PRIMARY KEY(id AUTOINCREMENT) )")
+        # cursor.execute("DROP TABLE tienda")
+        cursor.execute("CREATE TABLE IF NOT EXISTS tienda(id INTEGER NOT NULL,nombre TEXT NOT NULL,marca TEXT,descripcion TEXT,precio REAL NOT NULL,cantidad INTEGER NOT NULL,categoria TEXT NOT NULL,PRIMARY KEY(id AUTOINCREMENT) )")
         conexion.commit()
         conexion.close()
 
 
     def obtener_productos(self):
+        
         conexion=sqlite3.connect("supermercado.db")
         cursor=conexion.cursor()
         cur=cursor.execute("SELECT * FROM tienda")
@@ -56,8 +59,8 @@ class Aplicacion(Frame):
         conexion=sqlite3.connect("supermercado.db")
         cursor=conexion.cursor()
 
-        id=self.id.get()
-        print(id)
+        # id=self.id.get()
+        # print(id)
 
         nombre=self.nombre.get()
         print(nombre)
@@ -73,9 +76,12 @@ class Aplicacion(Frame):
         cantidad=self.cantidad.get()
         print(cantidad)
 
-        lista=[(id,nombre,marca,descripcion,precio,cantidad)]
+        categorias=self.categorias_entry.get()
 
-        cursor.executemany("INSERT INTO tienda VALUES(?,?,?,?,?,?)",lista)
+
+        
+
+        cursor.execute(f"INSERT INTO tienda VALUES(NULL,'{nombre}','{marca}','{descripcion}','{precio}','{cantidad}','{categorias}')")
         conexion.commit()
         conexion.close()
 
@@ -132,12 +138,13 @@ class Aplicacion(Frame):
         descripcion=self.descripcion.get()
         precio=self.precio.get()
         cantidad=self.cantidad.get()
+        categoria=self.categorias_entry.get()
 
         id=self.tabla.item(self.tabla.selection())["text"]
         print(id)
 
 
-        cursor.execute(f"UPDATE tienda SET nombre='{nombre}', marca='{marca}',descripcion='{descripcion}',precio='{precio}', cantidad='{cantidad}' WHERE id='{id}' ")
+        cursor.execute(f"UPDATE tienda SET nombre='{nombre}', marca='{marca}',descripcion='{descripcion}',precio='{precio}', cantidad='{cantidad}', categoria='{categoria}' WHERE id='{id}' ")
         conexion.commit()
         conexion.close()
         self.obtener_productos()
@@ -164,11 +171,6 @@ class Aplicacion(Frame):
         cantidad=obtenercolumnas[4]
 
 
-        
-
-
-        i=self.id.delete(0,"end")
-        i=self.id.insert(0,id)
 
         n=self.nombre.delete(0,"end")
         n=self.nombre.insert(0,nombre)
@@ -217,6 +219,16 @@ class Aplicacion(Frame):
         label_imagen.configure(image=self.imagen_tk)
         label_imagen.place(relx=0,rely=0)
 
+        categorias_label=tk.Label()
+        categorias_label["text"]="categorias"
+        categorias_label["bg"]="#75afda"
+        categorias_label["fg"]="#333333"
+        categorias_label.place(relx=0.19,y=110,width=76,height=30)
+
+        self.categorias_entry=tk.Entry()
+        self.categorias_entry.place(relx=0.28,y=110,width=88,height=30)
+
+
         GLabel_464=tk.Label()
         GLabel_464["bg"] = "#90ee90"
         ft = tkFont.Font(family='Times',size=17)
@@ -262,14 +274,7 @@ class Aplicacion(Frame):
         GLabel_994["text"] = "•cantidad• :"
         GLabel_994.place(x=590,y=110,width=80,height=30)
 
-        GLabel_866=tk.Label()
-        GLabel_866["bg"] = "#75afda"
-        ft = tkFont.Font(family='Times',size=10)
-        GLabel_866["font"] = ft
-        GLabel_866["fg"] = "#333333"
-        GLabel_866["justify"] = "center"
-        GLabel_866["text"] = "•Id• :"
-        GLabel_866.place(x=210,y=70,width=77,height=30)
+     
 
         GLabel_841=tk.Label()
         GLabel_841["bg"] = "#75afda"
@@ -278,16 +283,9 @@ class Aplicacion(Frame):
         GLabel_841["fg"] = "#333333"
         GLabel_841["justify"] = "center"
         GLabel_841["text"] = "•Nombre• :"
-        GLabel_841.place(x=210,y=110,width=76,height=30)
+        GLabel_841.place(relx=0.19,y=70,width=76,height=30)
 
-        self.id=tk.Entry()
-        self.id["borderwidth"] = "1px"
-        ft = tkFont.Font(family='Times',size=10)
-        self.id["font"] = ft
-        self.id["fg"] = "#333333"
-        self.id["justify"] = "left"
-        self.id["text"] = "id"
-        self.id.place(x=300,y=70,width=89,height=30)
+       
 
         self.marca=tk.Entry()
         self.marca["borderwidth"] = "1px"
@@ -332,7 +330,7 @@ class Aplicacion(Frame):
         self.nombre["fg"] = "#333333"
         self.nombre["justify"] = "left"
         self.nombre["text"] = "nombre"
-        self.nombre.place(x=300,y=110,width=89,height=30)
+        self.nombre.place(x=300,y=70,width=89,height=30)
 
 
 

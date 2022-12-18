@@ -2,6 +2,7 @@ import tkinter as tk
 import tkinter.font as tkFont
 from tkinter import ttk
 import sqlite3
+import random
 from  PIL import Image,ImageTk
 from tkinter import messagebox
 
@@ -244,7 +245,7 @@ class Carrito:
         conexion=sqlite3.connect("supermercado.db")
         cursor=conexion.cursor()
         buscar=self.buscar_producto_entry.get()
-        consulta=cursor.execute(f"SELECT * FROM tienda WHERE  nombre LIKE  '{buscar}%' or marca LIKE '{buscar}%'")
+        consulta=cursor.execute(f"SELECT * FROM tienda WHERE  nombre LIKE  '{buscar}%' or marca LIKE '{buscar}%' or categoria LIKE '{buscar}%'")
         # s=cursor.fetchall()
         # for i in s:
         #     print(i)
@@ -264,6 +265,12 @@ class Carrito:
 
         limpiar=self.ticket.delete(self.t)
         self.t=self.ticket.insert("","end",text=self.clave, values=(self.marca,self.cantidadproducto,self.total))
+        self.stock=int(self.valores[3])
+        conexion=sqlite3.connect("supermercado.db")
+        cursor=conexion.cursor()
+        cursor.execute(f"UPDATE tienda SET cantidad = {self.stock} - {self.cantidadproducto} WHERE nombre = '{self.clave}'")
+        conexion.commit()
+        conexion.close()
 
     
     def boton_disminuir_command(self):
@@ -273,6 +280,12 @@ class Carrito:
         limpieza=self.ticket.delete(self.t)
 
         self.t=self.ticket.insert("","end",text=self.clave, values=(self.marca,self.cantidadproducto,self.total_disminuir))
+        self.stock=int(self.valores[3])
+        conexion=sqlite3.connect("supermercado.db")
+        cursor=conexion.cursor()
+        cursor.execute(f"UPDATE tienda SET cantidad = {self.stock} + {self.cantidadproducto} WHERE nombre = '{self.clave}'")
+        conexion.commit()
+        conexion.close()
 
     def boton_eliminar_command(self):
         limpiar=self.ticket.delete(self.ticket.selection())
@@ -294,11 +307,18 @@ class Carrito:
             self.marca=self.valores[0]
             self.precio_incial=float(self.valores[2])
             
+
+            
+
+            
         
     
             self.cantidadproducto=1
 
             self.t=self.ticket.insert("","end",text=self.clave, values=(self.marca,self.cantidadproducto,self.precio_incial))
+
+
+           
     
         else:
             self.label_contador_producto["text"]="selecciona un producto"
@@ -308,16 +328,24 @@ class Carrito:
     def boton_subtotal_command(self):
         self.billetitos.delete(0,"end")
 
-        suma=0
+        self.suma=0
         for i in self.ticket.get_children():
             celda=float(self.ticket.set(i,"pagar"))
-            suma=suma+celda
+            self.suma=self.suma+celda
 
-        entrada=self.billetitos.insert(0,suma)
+        entrada=self.billetitos.insert(0,self.suma)
 
         
     def boton_pagar_command(self):
-        messagebox.showinfo(message="su compra fue realizada",title="compra exitosa")
+        codigo_aleatorio=random.randrange(100000000,900000000)
+        messagebox.showinfo(message=f"""Acercate un rapipago con este codigo:
+        {codigo_aleatorio} 
+        
+        El total es $ ----
+        
+        """,title="compra exitosa")
+
+
 
         
 
