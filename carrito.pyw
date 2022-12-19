@@ -341,7 +341,7 @@ class Carrito:
         messagebox.showinfo(message=f"""Acercate un rapipago con este codigo:
         {codigo_aleatorio} 
         
-        El total es $ ----
+        El total es $ {self.suma}
         
         """,title="compra exitosa")
 

@@ -117,9 +117,6 @@ class App:
         nombre_de_usuario=self.nombre_de_usuario.get()
         contrasenia=self.contrasenia.get()
 
-        print(nombre_de_usuario)
-        print(contrasenia)
-
         conexion=sqlite3.connect("supermercado.db")
         cursor=conexion.cursor()
         cursor.execute("select * from usuario")
